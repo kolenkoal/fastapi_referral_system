@@ -30,6 +30,11 @@ class EmailNotFoundException(EcommerceException):
     detail = "Email Not Found."
 
 
+class UserIsAlreadyReferral(EcommerceException):
+    status_code = status.HTTP_409_CONFLICT
+    detail = "You are already a Referral of this Referrer."
+
+
 class WrongNameOrSurnameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid First Name or Last Name."

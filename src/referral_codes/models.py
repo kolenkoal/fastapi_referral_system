@@ -23,24 +23,19 @@ class ReferralCode(Base):
         Boolean, default=True, nullable=False
     )
 
-    user = relationship("User", back_populates="referral_codes")
-
-    users_referrals: Mapped[list["User"]] = relationship(  # noqa
-        back_populates="referrals",
-        secondary="user_referral_codes",
-    )
+    user = relationship("User", back_populates="referral_code")
 
 
 class UserReferralCode(Base):
     __tablename__ = "user_referral_codes"
 
-    user_id: Mapped[UUID] = mapped_column(
+    referrer_id: Mapped[UUID] = mapped_column(
         GUID, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
     )
 
     referral_id: Mapped[UUID] = mapped_column(
         GUID,
-        ForeignKey("referral_codes.id", ondelete="CASCADE"),
+        ForeignKey("users.id", ondelete="CASCADE"),
         primary_key=True,
     )
 

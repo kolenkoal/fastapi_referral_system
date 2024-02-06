@@ -4,7 +4,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
 from src.models import created_at, str256, updated_at, uuidpk
-from src.referral_codes.models import ReferralCode
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
@@ -28,9 +27,4 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
         Boolean, default=False, nullable=False
     )
 
-    referral_codes = relationship("ReferralCode", back_populates="user")
-
-    referrals: Mapped[list["ReferralCode"]] = relationship(
-        back_populates="users_referrals",
-        secondary="user_referral_codes",
-    )
+    referral_code = relationship("ReferralCode", back_populates="user")
