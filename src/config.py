@@ -18,6 +18,11 @@ class Settings(BaseSettings):
 
     ADMIN_PASSWORD: str
 
+    REDIS_HOST: str
+    REDIS_PORT: str
+
+    EMAIL_VERIFIER_API_KEY: str
+
     @property
     def DATABASE_URL_asyncpg(self):
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"

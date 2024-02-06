@@ -206,8 +206,6 @@ class ReferralCodeDAO(BaseDAO):
     async def _add_referral(cls, code, created_user_id, session=None):
         referrer_referral_code = await cls._get_by_referral_code(code)
 
-        print(referrer_referral_code.user_id)
-
         insert_referral_query = (
             insert(UserReferralCode)
             .values(

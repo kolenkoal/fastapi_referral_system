@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Response, status
+from fastapi_cache.decorator import cache
 
 from src.auth.auth import current_user
 from src.exceptions import (
@@ -55,6 +56,7 @@ async def delete_referral_code(
     response_model=SReferralCodeInfo,
     responses=EMAIL_NOT_FOUND_RESPONSE,
 )
+@cache(expire=60)
 async def get_referral_code_by_email(referrer_email):
     if not await ReferralCodeDAO.check_email(referrer_email):
         raise_http_exception(EmailNotFoundException)

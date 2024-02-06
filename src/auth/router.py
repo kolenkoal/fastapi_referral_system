@@ -5,6 +5,8 @@ from fastapi_users.router.common import ErrorCode, ErrorModel
 
 from src.auth.auth import auth_backend, fastapi_users
 from src.auth.manager import get_user_manager
+from src.auth.utils.verify_email import verify_email
+from src.exceptions import InvalidEmailException, raise_http_exception
 from src.referral_codes.dao import ReferralCodeDAO
 from src.users.schemas import UserCreate, UserRead
 
@@ -57,6 +59,9 @@ async def register_with_referral_code(
     ),
 ):
     try:
+        if not verify_email(user_create.email):
+            raise_http_exception(InvalidEmailException)
+
         created_user = await user_manager.create(
             user_create, safe=True, request=request
         )

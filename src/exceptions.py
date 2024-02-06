@@ -50,6 +50,11 @@ class WrongNameOrSurnameException(EcommerceException):
     detail = "Invalid First Name or Last Name."
 
 
+class InvalidEmailException(EcommerceException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    detail = "Please Enter a valid Email."
+
+
 class ReferralCodeNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     detail = "Failed To Add Referral Code."

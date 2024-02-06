@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from fastapi_cache.decorator import cache
 
 from src.auth.auth import current_user
 from src.exceptions import ReferralNotFoundException
@@ -17,6 +18,7 @@ router = APIRouter(prefix="/referrals", tags=["Referrals"])
     responses=UNAUTHORIZED_FORBIDDEN_REFERRER_NOT_FOUND_RESPONSE,
     response_model=ReferrerReferrals,
 )
+@cache(expire=60)
 async def get_referrals_by_referrer_id(
     referrer_id, user: User = Depends(current_user)
 ):
