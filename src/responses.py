@@ -15,3 +15,23 @@ UNAUTHORIZED_RESPONSE = {
         }
     }
 }
+
+REFERRAL_CODE_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Referral Code Not Found.": {
+                        "summary": "Referral Code Not Found.",
+                        "value": {"detail": "Referral Code Not Found."},
+                    },
+                }
+            }
+        }
+    }
+}
+
+UNAUTHORIZED_REFERRAL_CODE_NOT_FOUND_RESPONSE = {
+    **UNAUTHORIZED_RESPONSE,
+    **REFERRAL_CODE_NOT_FOUND_RESPONSE,
+}

@@ -15,6 +15,16 @@ def raise_http_exception(exception_class):
     )
 
 
+class ForbiddenException(EcommerceException):
+    status_code = status.HTTP_403_FORBIDDEN
+    detail = "Forbidden"
+
+
+class ReferralCodeNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Referral Code Not Found."
+
+
 class WrongNameOrSurnameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid First Name or Last Name."
@@ -22,4 +32,4 @@ class WrongNameOrSurnameException(EcommerceException):
 
 class ReferralCodeNotImplementedException(EcommerceException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    detail = "Failed to add referral code."
+    detail = "Failed To Add Referral Code."
