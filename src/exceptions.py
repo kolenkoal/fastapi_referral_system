@@ -25,6 +25,11 @@ class ReferralCodeNotFoundException(EcommerceException):
     detail = "Referral Code Not Found."
 
 
+class EmailNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Email Not Found."
+
+
 class WrongNameOrSurnameException(EcommerceException):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
     detail = "Invalid First Name or Last Name."

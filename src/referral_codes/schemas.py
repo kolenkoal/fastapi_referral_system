@@ -11,3 +11,9 @@ class SReferralCode(BaseModel):
     expiration_date: date
     created_at: datetime
     is_active: bool
+
+
+class SReferralCodeInfo(BaseModel):
+    id: uuid.UUID
+    code: str
+    expiration_date: date

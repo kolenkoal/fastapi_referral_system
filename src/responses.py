@@ -31,6 +31,21 @@ REFERRAL_CODE_NOT_FOUND_RESPONSE = {
     }
 }
 
+EMAIL_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Email Not Found.": {
+                        "summary": "Email Not Found.",
+                        "value": {"detail": "Email  Not Found."},
+                    },
+                }
+            }
+        }
+    }
+}
+
 UNAUTHORIZED_REFERRAL_CODE_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **REFERRAL_CODE_NOT_FOUND_RESPONSE,

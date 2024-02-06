@@ -10,6 +10,7 @@ from src.exceptions import (
 )
 from src.referral_codes.models import ReferralCode
 from src.referral_codes.utils.referral_code import generate_referral_code
+from src.users.models import User
 from src.utils.session import manage_session
 
 
@@ -74,7 +75,7 @@ class ReferralCodeDAO(BaseDAO):
     @classmethod
     @manage_session
     async def delete(cls, referral_code_id, user, session=None):
-        referral_code = await cls.get_by_id(referral_code_id)
+        referral_code = await cls._get_by_id(referral_code_id)
 
         if not referral_code:
             raise_http_exception(ReferralCodeNotFoundException)
@@ -98,7 +99,7 @@ class ReferralCodeDAO(BaseDAO):
 
     @classmethod
     @manage_session
-    async def get_by_id(cls, referral_code_id, session=None):
+    async def _get_by_id(cls, referral_code_id, session=None):
         get_referral_code_query = select(cls.model).where(
             cls.model.id == referral_code_id
         )
@@ -108,3 +109,29 @@ class ReferralCodeDAO(BaseDAO):
         ).scalar_one_or_none()
 
         return referral_code
+
+    @classmethod
+    @manage_session
+    async def get_by_email(cls, referrer_email, session=None):
+        get_referral_code_query = (
+            select(cls.model)
+            .join(User, User.id == cls.model.user_id)
+            .where(User.email == referrer_email)
+        )
+
+        referral_code = (
+            await session.execute(get_referral_code_query)
+        ).scalar_one_or_none()
+
+        return referral_code
+
+    @classmethod
+    @manage_session
+    async def check_email(cls, referrer_email, session=None):
+        get_email_query = select(User.email).where(
+            User.email == referrer_email
+        )
+
+        email = (await session.execute(get_email_query)).scalar_one_or_none()
+
+        return email
