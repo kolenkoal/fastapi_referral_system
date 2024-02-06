@@ -28,3 +28,11 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     )
 
     referral_code = relationship("ReferralCode", back_populates="user")
+
+    referrals: Mapped[list["User"]] = relationship(
+        "User",
+        secondary="user_referral_codes",
+        primaryjoin="User.id == UserReferralCode.referrer_id",
+        secondaryjoin="User.id == UserReferralCode.referral_id",
+        backref="referrer",
+    )

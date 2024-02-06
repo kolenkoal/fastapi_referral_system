@@ -17,10 +17,7 @@ from src.responses import (
 from src.users.models import User
 
 
-router = APIRouter(
-    prefix="/referral_codes",
-    tags=["Referral Codes"],
-)
+router = APIRouter(prefix="/referral_codes", tags=["Referral Codes"])
 
 
 @router.post(
@@ -68,7 +65,3 @@ async def get_referral_code_by_email(referrer_email):
         raise ReferralCodeNotFoundException
 
     return referral_code
-
-
-# post register/referral/referralcode
-# get referral by id

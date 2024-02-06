@@ -25,6 +25,16 @@ class ReferralCodeNotFoundException(EcommerceException):
     detail = "Referral Code Not Found."
 
 
+class ReferralNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Referrals Not Found."
+
+
+class ReferrerNotFoundException(EcommerceException):
+    status_code = status.HTTP_404_NOT_FOUND
+    detail = "Referrer Not Found."
+
+
 class EmailNotFoundException(EcommerceException):
     status_code = status.HTTP_404_NOT_FOUND
     detail = "Email Not Found."

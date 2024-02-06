@@ -32,6 +32,36 @@ REFERRAL_CODE_NOT_FOUND_RESPONSE = {
     }
 }
 
+REFERRER_NOT_FOUND_RESPONSE = {
+    status.HTTP_404_NOT_FOUND: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Referrer Not Found.": {
+                        "summary": "Referrer Not Found.",
+                        "value": {"detail": "Referrer Not Found."},
+                    },
+                }
+            }
+        }
+    }
+}
+
+FORBIDDEN_RESPONSE = {
+    status.HTTP_403_FORBIDDEN: {
+        "content": {
+            "application/json": {
+                "examples": {
+                    "Forbidden.": {
+                        "summary": "Forbidden.",
+                        "value": {"detail": "Forbidden."},
+                    },
+                }
+            }
+        }
+    },
+}
+
 EMAIL_NOT_FOUND_RESPONSE = {
     status.HTTP_404_NOT_FOUND: {
         "content": {
@@ -50,6 +80,12 @@ EMAIL_NOT_FOUND_RESPONSE = {
 UNAUTHORIZED_REFERRAL_CODE_NOT_FOUND_RESPONSE = {
     **UNAUTHORIZED_RESPONSE,
     **REFERRAL_CODE_NOT_FOUND_RESPONSE,
+}
+
+UNAUTHORIZED_FORBIDDEN_REFERRER_NOT_FOUND_RESPONSE = {
+    **UNAUTHORIZED_RESPONSE,
+    **FORBIDDEN_RESPONSE,
+    **REFERRER_NOT_FOUND_RESPONSE,
 }
 
 REGISTER_NOT_FOUND_RESPONSE = (

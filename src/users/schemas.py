@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 from typing import Type, Union
 
 from fastapi_users import schemas
@@ -45,3 +46,11 @@ class UserCreate(schemas.CreateUpdateDictModel):
 
 class UserUpdate(UserCreate):
     pass
+
+
+class UserReadWithDate(UserRead):
+    created_at: datetime
+
+
+class ReferrerReferrals(UserRead):
+    referrals: list[UserReadWithDate]

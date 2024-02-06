@@ -1,12 +1,14 @@
 from datetime import date, timedelta
 
 from sqlalchemy import and_, delete, insert, select
+from sqlalchemy.orm import joinedload
 
 from src.dao import BaseDAO
 from src.exceptions import (
     ForbiddenException,
     ReferralCodeNotFoundException,
     ReferralCodeNotImplementedException,
+    ReferrerNotFoundException,
     UserIsAlreadyReferral,
     raise_http_exception,
 )
@@ -114,6 +116,19 @@ class ReferralCodeDAO(BaseDAO):
 
     @classmethod
     @manage_session
+    async def _get_by_user_id(cls, user_id, session=None):
+        get_referral_code_query = select(cls.model).where(
+            cls.model.user_id == user_id
+        )
+
+        referral_code = (
+            await session.execute(get_referral_code_query)
+        ).scalar_one_or_none()
+
+        return referral_code
+
+    @classmethod
+    @manage_session
     async def _get_by_referral_code(cls, code, session=None):
         get_referral_code_query = select(cls.model).where(
             cls.model.code == code
@@ -209,3 +224,38 @@ class ReferralCodeDAO(BaseDAO):
         await session.commit()
 
         return new_referral
+
+    @classmethod
+    @manage_session
+    async def get_referrals_by_referrer_id(
+        cls, user, referrer_id, session=None
+    ):
+        referrer_code = await cls._get_by_user_id(referrer_id)
+
+        if not referrer_code:
+            raise_http_exception(ReferrerNotFoundException)
+
+        if referrer_code.user_id != user.id:
+            raise_http_exception(ForbiddenException)
+
+        return await cls._get_referrer_referrals(referrer_code.user_id)
+
+    @classmethod
+    @manage_session
+    async def _get_referrer_referrals(cls, referrer_id, session=None):
+        get_referrer_referrals_query = (
+            select(User)
+            .join(UserReferralCode, UserReferralCode.referrer_id == User.id)
+            .options(joinedload(User.referrals))
+            .where(UserReferralCode.referrer_id == referrer_id)
+        )
+
+        referrer_referrals_result = await session.execute(
+            get_referrer_referrals_query
+        )
+
+        referrer_referrals = (
+            referrer_referrals_result.unique().mappings().all()
+        )
+
+        return referrer_referrals[0]["User"]
