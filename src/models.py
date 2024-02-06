@@ -8,6 +8,7 @@ from sqlalchemy.orm import mapped_column
 
 from src.database import str_256
 
+
 created_at = Annotated[
     datetime, mapped_column(server_default=text("TIMEZONE('utc', now())"))
 ]

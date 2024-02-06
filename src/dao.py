@@ -10,8 +10,8 @@ class BaseDAO:
 
     @classmethod
     async def find_by_id(
-            cls,
-            model_id: UUID,
+        cls,
+        model_id: UUID,
     ) -> model:
         async with async_session_factory() as session:
             query = select(cls.model).filter_by(id=model_id)

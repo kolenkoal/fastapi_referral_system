@@ -15,19 +15,19 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     verification_token_secret = settings.JWT_SECRET_KEY
 
     async def on_after_register(
-            self, user: User, request: Optional[Request] = None
+        self, user: User, request: Optional[Request] = None
     ):
         print(f"User {user.id} has registered.")
 
     async def on_after_forgot_password(
-            self, user: User, token: str, request: Optional[Request] = None
+        self, user: User, token: str, request: Optional[Request] = None
     ):
         print(
             f"User {user.id} has forgot their password. Reset token: {token}"
         )
 
     async def on_after_request_verify(
-            self, user: User, token: str, request: Optional[Request] = None
+        self, user: User, token: str, request: Optional[Request] = None
     ):
         print(
             f"Verification requested for user {user.id}. Verification token: {token}"
@@ -35,6 +35,6 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 
 
 async def get_user_manager(
-        user_db: SQLAlchemyUserDatabase = Depends(UserDAO.get_user_db),
+    user_db: SQLAlchemyUserDatabase = Depends(UserDAO.get_user_db),
 ):
     yield UserManager(user_db)

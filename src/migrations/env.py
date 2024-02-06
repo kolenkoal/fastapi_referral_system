@@ -4,7 +4,9 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 
 from src.database import DATABASE_URL, Base
+from src.referral_codes.models import ReferralCode, UserReferralCode  # noqa
 from src.users.models import User  # noqa
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

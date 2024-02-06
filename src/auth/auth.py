@@ -11,6 +11,7 @@ from src.auth.manager import get_user_manager
 from src.config import settings
 from src.users.models import User
 
+
 cookie_transport = CookieTransport(
     cookie_name="ecommerce_token", cookie_max_age=3600
 )

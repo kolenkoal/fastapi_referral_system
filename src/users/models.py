@@ -1,9 +1,10 @@
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTableUUID
-from sqlalchemy import Boolean, ForeignKey
+from sqlalchemy import Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
 from src.models import created_at, str256, updated_at, uuidpk
+from src.referral_codes.models import ReferralCode
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
@@ -14,7 +15,7 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     hashed_password: Mapped[str256]
     first_name: Mapped[str256]
     last_name: Mapped[str256]
-    created_at = Mapped[created_at]
+    created_at: Mapped[created_at]
     updated_at: Mapped[updated_at]
 
     is_active: Mapped[bool] = mapped_column(
@@ -25,4 +26,11 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     )
     is_verified: Mapped[bool] = mapped_column(
         Boolean, default=False, nullable=False
+    )
+
+    referral_codes = relationship("ReferralCode", back_populates="user")
+
+    referrals: Mapped[list["ReferralCode"]] = relationship(
+        back_populates="users_referrals",
+        secondary="user_referral_codes",
     )

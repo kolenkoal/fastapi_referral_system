@@ -26,7 +26,7 @@ class UserCreate(schemas.CreateUpdateDictModel):
     @field_validator("first_name", "last_name")
     @classmethod
     def validate_city_or_region(
-            cls, value: str
+        cls, value: str
     ) -> Union[str, Type[WrongNameOrSurnameException]]:
         if not LETTER_MATCH_PATTERN.match(value):
             raise WrongNameOrSurnameException
