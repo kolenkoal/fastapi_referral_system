@@ -11,15 +11,15 @@ from src.referrals.router import router as referrals_router
 from src.users.router import router as user_router
 
 
-app = FastAPI()
+app = FastAPI(
+    title="Referral System",
+)
 
 router = APIRouter(prefix="/api")
 
 origins = [
     "http://localhost:3000",
-    "http://127.0.0.1:3000",
     "https://localhost:3000",
-    "https://127.0.0.1:3000",
 ]
 
 app.add_middleware(

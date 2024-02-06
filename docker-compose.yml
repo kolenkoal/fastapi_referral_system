@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+    container_name: referral_system_db
+    restart: always
+    volumes:
+      - referral_system_data_storage:/var/lib/postgresql/data
+      - ./path/to/init-scripts:/docker-entrypoint-initdb.d
+    env_file:
+      - ".env"
+    ports:
+      - "5433:5432"
+
+  redis:
+    image: redis:7
+    container_name: referral_system_redis
+
+  referral_system:
+    build:
+      context: .
+    container_name: referral_system_app
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+    ports:
+      - "8000:8000"
+
+volumes:
+  referral_system_data_storage:

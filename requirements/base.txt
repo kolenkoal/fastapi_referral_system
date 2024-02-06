@@ -12,3 +12,4 @@ SQLAlchemy-Utils==0.41.1
 fastapi-cache2==0.2.1
 redis==5.0.1
 requests==2.31.0
+gunicorn==20.1.0
